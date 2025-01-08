@@ -54,3 +54,36 @@ app.get('/movies/read/by-rating', (req, res) => {
 app.get('/movies/read/by-title', (req, res) => {
     res.json({ status: 200, data: movies.sort((a, b) => a.title.localeCompare(b.title)) });
 });
+app.get('/movies/read/id/:id', (req, res) => {
+    const id = parseInt(req.params.id); // Convert ID to a number
+    if (id >= 0 && id < movies.length) {
+        res.json({ status: 200, data: movies[id] });
+    } else {
+        res.status(404).json({ 
+            status: 404, 
+            error: true, 
+            message: `The movie with ID ${id} does not exist` 
+        });
+    }
+});
+app.get('/movies/add', (req, res) => {
+    const { title, year, rating } = req.query;
+
+    if (!title || !year || year.length !== 4 || isNaN(year)) {
+        return res.status(403).json({
+            status: 403,
+            error: true,
+            message: "You cannot create a movie without providing a title and a valid year"
+        });
+    }
+
+    const newMovie = {
+        title,
+        year: parseInt(year),
+        rating: rating ? parseFloat(rating) : 4
+    };
+
+    movies.push(newMovie);
+
+    res.json({ status: 200, data: movies });
+});
