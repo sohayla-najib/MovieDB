@@ -101,3 +101,22 @@ app.get('/movies/delete/:id', (req, res) => {
         });
     }
 });
+app.get('/movies/update/:id', (req, res) => {
+    const id = parseInt(req.params.id);
+    const { title, year, rating } = req.query;
+
+    if (id >= 0 && id < movies.length) {
+        const movie = movies[id];
+        if (title) movie.title = title;
+        if (year && year.length === 4 && !isNaN(year)) movie.year = parseInt(year);
+        if (rating && !isNaN(rating)) movie.rating = parseFloat(rating);
+
+        res.json({ status: 200, data: movies });
+    } else {
+        res.status(404).json({
+            status: 404,
+            error: true,
+            message: `The movie with ID ${id} does not exist`
+        });
+    }
+});
