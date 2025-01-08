@@ -125,3 +125,18 @@ app.put('/movies/:id', (req, res) => { /* Update movie logic */ });
 app.delete('/movies/:id', (req, res) => { /* Delete movie logic */ });
 const mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost:27017/moviesDB', { useNewUrlParser: true, useUnifiedTopology: true });
+
+const movieSchema = new mongoose.Schema({
+    title: String,
+    year: Number,
+    rating: Number
+});
+
+const Movie = mongoose.model('Movie', movieSchema);
+
+const userSchema = new mongoose.Schema({
+    username: String,
+    password: String
+});
+
+const User = mongoose.model('User', userSchema);
