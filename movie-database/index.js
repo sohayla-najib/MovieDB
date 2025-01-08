@@ -120,3 +120,6 @@ app.get('/movies/update/:id', (req, res) => {
         });
     }
 });
+app.post('/movies', (req, res) => { /* Add movie logic */ });
+app.put('/movies/:id', (req, res) => { /* Update movie logic */ });
+app.delete('/movies/:id', (req, res) => { /* Delete movie logic */ });
